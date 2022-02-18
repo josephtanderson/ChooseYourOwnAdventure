@@ -1,6 +1,104 @@
-const gameText = document.getElementById("gametext");
+const stylesheet = document.styleSheets[0];
+const globalStyle = stylesheet.cssRules[0].style;
+const settings = document.getElementById("hide-settings");
+const settingsBtn = document.getElementById("settings-btn");
+const settingsMenuBtn = document.getElementById("settings-menu-btn");
+const menuStyle = stylesheet.cssRules[5].style;
+var menuHidden = true;
+const fsToggleBtn = document.getElementById("fullscreen-setting-toggle");
+const taToggleBtn = document.getElementById("typeanimations-setting-toggle");
+const tgToggleBtn = document.getElementById("textglow-setting-toggle");
+var fullscreen = false;
+var textAnimations = true;
+var textGlow = true;
+const fsToggleBtnStyle = stylesheet.cssRules[15].style;
+const taToggleBtnStyle = stylesheet.cssRules[16].style;
+const tgToggleBtnStyle = stylesheet.cssRules[17].style;
+const screenSizeStyle = stylesheet.cssRules[3].style;
+const screenSize = stylesheet.cssRules[2].style;
+
+function menuToggle () {
+    if (menuHidden === true) {
+    menuStyle.visibility="visible";
+    menuHidden=false;
+} else if (menuHidden === false) {
+    menuStyle.visibility="hidden";
+    menuHidden=true;
+    }
+}
+settingsBtn.addEventListener('click', menuToggle);
+settingsMenuBtn.addEventListener('click', menuToggle);
+
+function toggleBtn (button, state) {
+    console.log(button);
+    if (state) {
+        button.backgroundColor="rgb(27, 161, 34)";
+        button.paddingLeft="15px";
+    } else {
+        button.backgroundColor="rgb(254, 93, 38)";
+        button.paddingLeft="2px";
+    }
+}
+
+function fsBtnToggle() {
+    if (fullscreen) {
+        fullscreen = false;
+        toggleBtn(fsToggleBtnStyle, fullscreen);
+        screenSizeStyle.width = "90%";
+        screenSizeStyle.height = "90%";
+        screenSizeStyle.padding = "0";
+        screenSize.width = "88vmin";
+        screenSize.height = "66vmin";
+        globalStyle.fontSize = "large";
+    } else {
+        fullscreen = true;
+        toggleBtn(fsToggleBtnStyle, fullscreen);
+        screenSizeStyle.width = "100vw";
+        screenSizeStyle.height = "100vh";
+        screenSizeStyle.padding = "50px";
+        screenSize.width = "100%";
+        screenSize.height = "100%";
+        globalStyle.fontSize = "xx-large";
+    }
+}
+function taBtnToggle() {
+    if (textAnimations) {
+        //if on turn off
+        textAnimations = false;
+        toggleBtn(taToggleBtnStyle, textAnimations);
+    } else {
+        //if off turn on
+        textAnimations = true;
+        toggleBtn(taToggleBtnStyle, textAnimations);
+    }
+}
+function tgBtnToggle() {
+    if (textGlow) {
+        //if on turn off
+        textGlow = false;
+        toggleBtn(tgToggleBtnStyle, textGlow);
+        console.log(textGlow);
+        globalStyle.textShadow = "none";
+    } else {
+        //if off turn on
+        textGlow = true;
+        toggleBtn(tgToggleBtnStyle, textGlow);
+        console.log(textGlow);
+        globalStyle.textShadow = "var(--text-glow)";
+    }
+}
+fsToggleBtn.addEventListener('click', fsBtnToggle);
+taToggleBtn.addEventListener('click', taBtnToggle);
+tgToggleBtn.addEventListener('click', tgBtnToggle);
+
+
+//----------------------------------------------------------//
+
+
+const gameText = document.getElementById("text-log");
 const form = document.getElementById('form');
 const input = document.getElementById("player-input");
+
 const dialog1Arr = ['You wake up in a strange place...', 
 'You see a light in the distance, and a door to you left.',
 'Do you head for the light, or try the door?'];
@@ -11,7 +109,7 @@ let x = 0;
 const inventoryArr = [];
 
 function print(newLine){
-    gamePrint = gamePrint + "\r\n" + newLine + "\r\n";
+        gamePrint = gamePrint /*+ "\r\n" */+ newLine + "\r\n";
     gameText.textContent = gamePrint;
     input.value= "";
 }
@@ -19,7 +117,6 @@ function print(newLine){
 for (let y=0; y<dialog1Arr.length; y++) {
     print(dialog1Arr[y])
     } 
-
     newLine = input.value;
     gamePrint = gamePrint + "\r\n" + newLine + "\r\n";
     gameText.textContent = gamePrint;
