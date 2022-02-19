@@ -5,45 +5,26 @@
     font-size: large;
     font-weight: bold;
     color: hsl(120, 100%, 75%);
-    text-shadow: var(--text-glow);
+    /* text-shadow: var(--text-glow); */
     --text-glow: hsl(120, 100%, 50%) 0px 0px 10px;
     --settings-card-bg: #ffffff;
 }
 
 .background {
-    min-height: 100vh;
+    height: 100vh;
     width: 100vw;
-    background-color:aquamarine;
+    background-color:rgb(91, 148, 129);
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
 }
-
-.monitor {
-    width: 88vmin;
-    min-width: 300px;
-    height: 66vmin;
-    min-height: 225px;
-    background-color: #c2bca9;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-top: 10px solid #ffffffcc;
-    border-right: 10px solid #ffffffdd;
-    border-bottom: 10px solid #00000022;
-    border-left: 10px solid #00000044;
-    box-shadow: -10px 10px 50px 5px #000000bb;
-}
-
 
 .screen {
+    box-sizing: content-box;
     background-color: #000;
-    width: 90%;
-    height: 90%;
-    border-top: 10px solid #ffffff22;
-    border-right: 10px solid #ffffff44;
-    border-bottom: 10px solid #ffffffaa;
-    border-left: 10px solid #ffffffbb;
+    border: 10px solid black;
+    padding: 9px 10px;
     overflow: hidden;
     display: grid;
     grid-template-columns: auto 0px;
@@ -181,10 +162,11 @@
 .settings-btn {
     text-decoration: none;
     font-size:larger;
-    padding: 8px 15px;
+    padding: 20px 18px;
 }
 
 .settings-btn-text {
+    /* background-color: #000; */
     margin: auto;
 }
 
@@ -193,9 +175,10 @@
     grid-row: 2;
     width: 100%;
     height:100%;
-    padding: 5px;
+    padding: px;
     display: flex;
     overflow-y: hidden;
+    padding: 20px 18px;
 }
 
 .text-box {
@@ -209,7 +192,6 @@
 .text-log {
     grid-row: 1;
     white-space: pre-wrap;
-    padding-bottom: 2px;
     overflow-wrap: break-word;
     word-wrap: break-word;
     vertical-align: bottom;
@@ -225,15 +207,48 @@
     grid-row: 2;
 }
 
-.text-input {
+.player-input {
     width: 100%;
-    padding-bottom: 5px;
+    padding: 0px 181_________px 15px 18px;
     background-color: #00000000;
     resize: none;
     border: none;
     caret-color: green;
 }
 
-.text-input:focus {
+.player-input:focus {
     outline: green;
 }
+
+.foreground {
+    pointer-events: none;
+    height: 100vh;
+    width: 100vw;
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    visibility: visible;
+}
+
+.monitor {
+    box-sizing: unset;
+    height: 60vmin;
+    width: 80vmin;
+    border-top: 40px solid hsl(60, 27%, 60%) /*#ffffff22*/;
+    border-right: 40px solid hsl(60, 27%, 66%) /*#ffffff44*/;
+    border-bottom: 40px solid hsl(60, 27%, 69%) /*#ffffffaa*/;
+    border-left: 40px solid hsl(60, 27%, 63%) /*#ffffffbb*/;
+}
+
+.monitor-inner-bezel { 
+    height: 100%;
+    width: 100%;
+    border-top: 10px solid #000000bb;
+    border-right: 10px solid #00000033;
+    border-bottom: 10px solid #ffffff05;
+    border-left: 10px solid #00000077;
+}
+
