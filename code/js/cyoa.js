@@ -1,4 +1,6 @@
-const stylesheet = document.styleSheets[0];
+//022022-1834
+
+onst stylesheet = document.styleSheets[0];
 const globalStyle = stylesheet.cssRules[0].style;
 const settings = document.getElementById("hide-settings");
 const settingsBtn = document.getElementById("settings-btn");
