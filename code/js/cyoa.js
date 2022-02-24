@@ -157,7 +157,7 @@ const form = document.getElementById('form');
 const input = document.getElementById("player-input");
 
 var response;
-var globalCommand = false;
+// var globalCommand = false;
 const dialogArr = [["You have a previously saved game, would you like to continue?\r\n'yes' or 'no'"],
 /*1*/   ['You wake up in a strange place...', 
         /*1*/   'You see a light in the distance, and a massive metal door to your left.',
@@ -235,35 +235,46 @@ const newDoorArr = [ [localStorage.getItem('progress'), 1],
 /*13*/  [13,13]
 ];
 
-const globalCommandArr = ["testmode",
-/*1*/   "exit",
-/*2*/   "reset",
-/*3*/   "save",
-/*4*/   "settings",
-/*5*/   "help",
-/*6*/   "_",
-/*7*/   "_",
-/*8*/   "_",
-/*9*/   "_",
-/*10*/   "_",
-/*11*/   "_",
-/*12*/   "_"
-];
 
-const globalRespArr = [ "1________1_________2_________3_________412________1_________2_________3_________413________1_________2_________3_________414________1_________2_________3_________415________1_________2_________3_________416________1_________2_________3_________417________1_________2_________3_________418________1_________2_________3_________419________1_________2_________3_________4110_______1_________2_________3_________4111_______1_________2_________3_________4112_______1_________2_________3_________4113_______1_________2_________3_________4114_______1_________2_________3_________4115_______1_________2_________3_________4116_______1_________2_________3_________4117_______1_________2_________3_________4118_______1_________2_________3_________4119_______1_________2_________3_________4120_______1_________2_________3_________4121_______1_________2_________3_________4122_______1_________2_________3_________4123_______1_________2_________3_________4124_______1_________2_________3_________4125_______1_________2_________3_________4126_______1_________2_________3_________4127_______1_________2_________3_________4128_______1_________2_________3_________4129_______1_________2_________3_________41", 
-/*1*/    "Are you sure you want to exit? \r\n'yes' or 'no'",
-/*2*/    "Do you want to reset? \r\n(This will remove your saved data) \r\n'yes' or 'no'",
-/*3*/    "Save your Game?\r\n'yes' or 'no'", 
-/*4*/    "Open the settings menu? \r\n'yes' or 'no'",
-/*5*/    "Global Commands: \r\n exit  \r\n reset \r\n save \r\n settings \r\n help\r\n",
-/*6*/    "",
-/*7*/    "",
-/*8*/    "",
-/*9*/    "",
-/*10*/   "",
-/*11*/   "",
-/*12*/   "",
-];
+const globalCommand = {
+    isGlobalCommand: false,
+    testmode: [0, "1________1_________2_________3_________41"],
+    exit: [1, "Are you sure you want to exit?"],
+    reset :[2, "Do you want to reset? \r\n(This will remove your saved data) \r\n'yes' or 'no'"],
+    save : [3, "Save your Game?\r\n'yes' or 'no'"], 
+    settings: [4, "Open the settings menu? \r\n'yes' or 'no'"],
+    help : [5, "Global Commands: \r\n exit  \r\n reset \r\n save \r\n settings \r\n help\r\n"]
+}
+
+// const globalCommandArr = ["testmode",
+// /*1*/   "exit",
+// /*2*/   "reset",
+// /*3*/   "save",
+// /*4*/   "settings",
+// /*5*/   "help",
+// /*6*/   "_",
+// /*7*/   "_",
+// /*8*/   "_",
+// /*9*/   "_",
+// /*10*/   "_",
+// /*11*/   "_",
+// /*12*/   "_"
+// ];
+
+// const globalRespArr = [ "1________1_________2_________3_________412________1_________2_________3_________413________1_________2_________3_________414________1_________2_________3_________415________1_________2_________3_________416________1_________2_________3_________417________1_________2_________3_________418________1_________2_________3_________419________1_________2_________3_________4110_______1_________2_________3_________4111_______1_________2_________3_________4112_______1_________2_________3_________4113_______1_________2_________3_________4114_______1_________2_________3_________4115_______1_________2_________3_________4116_______1_________2_________3_________4117_______1_________2_________3_________4118_______1_________2_________3_________4119_______1_________2_________3_________4120_______1_________2_________3_________4121_______1_________2_________3_________4122_______1_________2_________3_________4123_______1_________2_________3_________4124_______1_________2_________3_________4125_______1_________2_________3_________4126_______1_________2_________3_________4127_______1_________2_________3_________4128_______1_________2_________3_________4129_______1_________2_________3_________41", 
+// /*1*/    "Are you sure you want to exit? \r\n'yes' or 'no'",
+// /*2*/    "Do you want to reset? \r\n(This will remove your saved data) \r\n'yes' or 'no'",
+// /*3*/    "Save your Game?\r\n'yes' or 'no'", 
+// /*4*/    "Open the settings menu? \r\n'yes' or 'no'",
+// /*5*/    "Global Commands: \r\n exit  \r\n reset \r\n save \r\n settings \r\n help\r\n",
+// /*6*/    "",
+// /*7*/    "",
+// /*8*/    "",
+// /*9*/    "",
+// /*10*/   "",
+// /*11*/   "",
+// /*12*/   "",
+// ];
 
 let gamePrint = "";
 let newLine = "";
@@ -292,37 +303,40 @@ function roomText(x){
 }
 
 function findCommand(input){
-    inputTest = input.toLowerCase();
-    inputTest = inputTest.split(" ");
+    inputTest = input.toLowerCase().split(" ");
     playerInput = "input not recognized";
     for (i = 0 ; i <inputTest.length; i++) {
-        if (globalCommand !== false) {
-            if (inputTest[i] === "yes") {
-                playerInput = "yes";
-            } else if (inputTest[i] === "no") {
-                playerInput = "no";
-            } else {
+        if (globalCommand.isGlobalCommand !== false) {
+            if (inputTest[i] === "yes" || inputTest[i] === "no") {
+                playerInput = inputTest[i];
+                return;
             }
         }
-        if (globalCommandArr.includes(inputTest[i])) {
-            globalCommand = globalCommandArr.indexOf(inputTest[i]);
-            response = globalRespArr[globalCommand];
-            print(response);
+        if (globalCommand.hasOwnProperty(inputTest[i])) {
+            response = globalCommand[inputTest[i]][1];
             playerInput = inputTest[i];
-        } else if (optionArr1[x] === inputTest[i]) {
+            globalCommand.isGlobalCommand = globalCommand[inputTest[i]][0];
+            return;
+        }
+        // if (globalCommandArr.includes(inputTest[i])) {
+        //     globalCommand = globalCommandArr.indexOf(inputTest[i]);
+        //     response = globalRespArr[globalCommand];
+        //     print(response);
+        //     playerInput = inputTest[i];
+        //     return;
+        // }
+        if (optionArr1[x].includes(inputTest[i]) || optionArr2[x].includes(inputTest[i])) {
             playerInput = inputTest[i];
-        } else if (optionArr2[x] === inputTest[i]) {
-            playerInput = inputTest[i];
-        } else if (inputTest[i] === "back") {
+            return;
+        }
+        if (inputTest[i] === "back") {
             playerInput = "back";
-        } else {
-
+            return;
         }
     }
     if (playerInput === "input not recognized"){
-        globalCommand = false;
-    }
-    else {
+        globalCommand.isGlobalCommand = false;
+        return;
     }
 }
 
@@ -333,113 +347,86 @@ function playerSubmission(event) {
     if (playerInput) {
         print("\r\n" + playerInput + "\r\n");
         findCommand(playerInput);
-
     //global commands--
-        if (globalCommand !== false) {
-            if (globalCommand === 3 && localStorage.getItem('progress')) {
+        if (globalCommand.isGlobalCommand !== false) {
+            if (globalCommand.isGlobalCommand === 3 && localStorage.getItem('progress')) {
                 response = "This will overwrite previous save." + response;
             }
-            if (globalCommand === 0) {
+            print(response)
+            
+            if (globalCommand.isGlobalCommand === 0) {
                 //continue
-                if (playerInput === "yes") {
-
-                    
-                } else if (playerInput === "no") {
+                if (playerInput === "no") {
                     gamePrint= "";
                     x = 1;
-                } else {
-                    response = "I didn't understand your input please try again.";
                 }
                 
-            } else if (globalCommand === 1) {
+            } else if (globalCommand.isGlobalCommand === 1) {
                 //exit
                 if (playerInput === "yes") {
                     response = "Well we can't do that yet...";
-                    print(response  + "\r\n");
-                } else if (playerInput === "no") {
-                } else {
-                    response = "I didn't understand your input please try again.";
-                }
-                
-            } else if (globalCommand === 2 && !localStorage.getItem('progress')) {
+                    
+                }                 
+            } else if (globalCommand.isGlobalCommand === 2 && !localStorage.getItem('progress')) {
                 location.reload()
                 x = 1;
-            } else if (globalCommand === 2) {
+            } else if (globalCommand.isGlobalCommand === 2) {
                 //reset
                 if (playerInput === "yes") {
                     localStorage.removeItem('progress');
                     localStorage.removeItem('inventory');
                     response= "Save data reset";
-                    print(response);
+                    
                 } else if (playerInput === "no") {
                     gamePrint = "";
                 } else {
-                    response = "I didn't understand your input please try again.";
                 }
                 
-            } else if (globalCommand === 3) {
+            } else if (globalCommand.isGlobalCommand === 3) {
                 //save
                 if (playerInput === "yes") {
                     localStorage.setItem('progress', x);
                     localStorage.setItem('inventory', inventoryArr);
                     response = "Game Saved";
-                    print(response);
-                } else if (playerInput === "no") {
-                } else {
-                    response = "I didn't understand your input please try again.";
-                }
-                
-            } else if (globalCommand === 4) {
+                    
+                } 
+            } else if (globalCommand.isGlobalCommand === 4) {
                 //settings
                 if (playerInput === "yes") {
                     menuToggle();
-                } else if (playerInput === "no") {
-                } else {
-                    response = "I didn't understand your input please try again. \r\n";
-                }
-                
-            } else if (globalCommand === 5) {
-
-            } else if (globalCommand === 6) {
-                //testMode
-                if (parseInt(playerInput) !== NaN) {
-                    mode = parseInt(playerInput);
-                    gamePrint = "";
-                } else {
-                    gamePrint = "";
-                }
-                
-            } else {
-                response = "I didn't understand your input please try again. \r\n";
+                    response = " ";
+                } 
             }
-            } else {
-    //--------------------------------------------------------------------------------------------------
-                if (playerInput === optionArr1[x]) {
-                    x = newDoorArr[x][0];
-                    roomText(x);
-                    newDoorArr[2].unshift(x);
-                    console.log(newDoorArr[2]);
-                } else if (playerInput === optionArr2[x]) {
-                    x = newDoorArr[x][1];
-                    roomText(x);
-                    newDoorArr[2].unshift(x);
-                    console.log(newDoorArr[2]);
-                } else if (playerInput === "back") {
-                    x = 2;
-                    roomText(x);
-                    // print("feature not yet available");
-                } else {
-                    newLine = "I don't  understand your input, please try again \r\n";
-                    print(newLine);
-                }
-    //--------------------------------------------------------------------------------------------------    
-            }
+            print(response);
+            globalCommand.isGlobalCommand = false;
         } else {
-        response = "No input detected";
-        print("\r\n"+response+"\r\n");
+    //--------------------------------------------------------------------------------------------------
+            if (playerInput === optionArr1[x]) {
+                x = newDoorArr[x][0];
+                roomText(x);
+                newDoorArr[2].unshift(x);
+            } else if (playerInput === optionArr2[x]) {
+                x = newDoorArr[x][1];
+                roomText(x);
+                newDoorArr[2].unshift(x);
+            } else if (playerInput === "back") {
+                x = 2;
+                roomText(x);
+            } else {
+                response = "I don't  understand your input, please try again \r\n";
+                print(response);
+            }
+    //--------------------------------------------------------------------------------------------------    
+        }
+    } else {
+        if (menuHidden === false) {
+            menuToggle();
+        } else {
+            response = "No input detected";
+            print("\r\n"+response+"\r\n");
+        }
     }
     //--------------------------------------------------------------------------------------------------
-    console.log(x);
     event.preventDefault();
 }
 
@@ -448,6 +435,84 @@ function playerSubmission(event) {
 
 
 
+    // if (globalCommand === false) {
+
+    //     if (globalCommand === 3 && localStorage.getItem('progress')) {
+    //         response = "This will overwrite previous save." + response;
+    //     }
+    //     if (globalCommand === 0) {
+    //         //continue
+    //         if (playerInput === "yes") {
+
+                
+    //         } else if (playerInput === "no") {
+    //             gamePrint= "";
+    //             x = 1;
+    //         } else {
+    //             response = "I didn't understand your input please try again.";
+    //         }
+            
+    //     } else if (globalCommand === 1) {
+    //         //exit
+    //         if (playerInput === "yes") {
+    //             response = "Well we can't do that yet...";
+    //             print(response  + "\r\n");
+    //         } else if (playerInput === "no") {
+    //         } else {
+    //             response = "I didn't understand your input please try again.";
+    //         }
+            
+    //     } else if (globalCommand === 2 && !localStorage.getItem('progress')) {
+    //         location.reload()
+    //         x = 1;
+    //     } else if (globalCommand === 2) {
+    //         //reset
+    //         if (playerInput === "yes") {
+    //             localStorage.removeItem('progress');
+    //             localStorage.removeItem('inventory');
+    //             response= "Save data reset";
+    //             print(response);
+    //         } else if (playerInput === "no") {
+    //             gamePrint = "";
+    //         } else {
+    //             response = "I didn't understand your input please try again.";
+    //         }
+            
+    //     } else if (globalCommand === 3) {
+    //         //save
+    //         if (playerInput === "yes") {
+    //             localStorage.setItem('progress', x);
+    //             localStorage.setItem('inventory', inventoryArr);
+    //             response = "Game Saved";
+    //             print(response);
+    //         } else if (playerInput === "no") {
+    //         } else {
+    //             response = "I didn't understand your input please try again.";
+    //         }
+            
+    //     } else if (globalCommand === 4) {
+    //         //settings
+    //         if (playerInput === "yes") {
+    //             menuToggle();
+    //         } else if (playerInput === "no") {
+    //         } else {
+    //             response = "I didn't understand your input please try again. \r\n";
+    //         }
+            
+    //     } else if (globalCommand === 5) {
+
+    //     } else if (globalCommand === 6) {
+    //         //testMode
+    //         if (parseInt(playerInput) !== NaN) {
+    //             mode = parseInt(playerInput);
+    //             gamePrint = "";
+    //         } else {
+    //             gamePrint = "";
+    //         }
+            
+    //     } else {
+    //         response = "I didn't understand your input please try again. \r\n";
+    //     }
 
 
 
@@ -455,32 +520,5 @@ function playerSubmission(event) {
 
 
 
-/*                if (playerInput === optionArr1[x]) {
-                    if (inventoryArr.includes("key")) {
-                        x = 5;
-                        newLine = "You find the door, quickly force the key into the lock and force it open with all your might";
-                        print(newLineArr[x]);
-                    } else {
-                        x=3;
-                        // newLine = "You lunge for the door, only to find it is locked, if only you had a key...";
-                        print(newLineArr[x])
-                        x=2
-                        newLine = "Do you head for the light, or try the door, again?"
-                        print(newLine);
-                    }
-                } else if (playerInput === optionArr2[x]) {
-                    x = optionArr2.indexOf(playerInput);
-                    roomText(x);
-                    inventoryArr.push("key");
-                    newLine = "oh cool, maybe try the door again?"
-                    print(newLine);
-                    x = 2; 
-                } else if (playerInput === "NO INPUT"){
-                    response = "No input detected";
-                    print(response);
-                } else {
-                    newLine = "I don't  understand your input, please try again \r\n";
-                    print(newLine);
-                    roomText(x);
-                }
-*/
+ 
+ 
