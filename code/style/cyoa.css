@@ -4,7 +4,7 @@
     margin: 0;
     box-sizing: border-box;
     font-family: 'Press Start 2P', monospace;
-    font-size: 8px;
+    font-size: 16px;
     font-weight: bold;
     color: hsl(120, 100%, 75%);
     text-shadow: var(--text-glow);
@@ -45,16 +45,16 @@
     height: 1192px; */
 
     /*VVVV 16px PS2P VVVV*/
-    /* width: 724px;
-    height: 622px; */
+    width: 724px;
+    height: 622px;
 
     /*VVVV 12px PS2P VVVV*/
     /* width: 554px;
     height: 476px; */
 
     /*VVVV 8px PS2P VVVV*/
-    width: 385px;
-    height: 330px;
+    /* width: 385px; */
+    /* height: 330px; */
 
     margin: 0px;
     border-style: solid;
