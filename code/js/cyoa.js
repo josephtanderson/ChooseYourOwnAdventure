@@ -8,13 +8,14 @@ const settingsMenuBtn = document.getElementById("settings-menu-btn");
 const menuStyle = stylesheet.cssRules[6].style;
 var menuHidden = true;
 const fsToggleBtn = document.getElementById("fullscreen-setting-toggle");
-const taToggleBtn = document.getElementById("typeanimations-setting-toggle");
+const themeBtn = document.getElementById("color-wrapper");
 const tgToggleBtn = document.getElementById("textglow-setting-toggle");
-var textAnimations = false;
+var theme = 0; 
+var themeArr = [["var(--theme-one-font)", "var(--theme-one-glow)", "var(--theme-one-bg)"],["var(--theme-two-font)", "var(--theme-two-glow)", "var(--theme-two-bg)"],["var(--theme-three-font)", "var(--theme-three-glow)", "var(--theme-three-bg)"],["var(--theme-four-font)", "var(--theme-four-glow)", "var(--theme-four-bg)"]]
 var textGlow = true;
 const fsToggleBtnStyle = stylesheet.cssRules[16].style;
-const taToggleBtnStyle = stylesheet.cssRules[17].style;
-const tgToggleBtnStyle = stylesheet.cssRules[18].style;
+// const taToggleBtnStyle = stylesheet.cssRules[17].style;
+const tgToggleBtnStyle = stylesheet.cssRules[19].style;
 const screenSizeStyle = stylesheet.cssRules[4].style;
 const screenBorder = stylesheet.cssRules[3].style;
 //screen sizing
@@ -120,17 +121,14 @@ function fsBtnToggle() {
         fullscreenOn();
     }
 }
-function taBtnToggle() {
-    if (textAnimations) {
-        //if on turn off
-        textAnimations = false;
-        toggleBtn(taToggleBtnStyle, textAnimations);
-    } else {
-        //if off turn on
-        textAnimations = true;
-        toggleBtn(taToggleBtnStyle, textAnimations);
-    }
+function changeTheme() {
+    if (theme === 3) theme = -1;
+    theme ++;
+    globalStyle.setProperty('--type-color', themeArr[theme][0]);
+    globalStyle.setProperty('--text-glow', themeArr[theme][1]);
+    globalStyle.setProperty('--bg-color', themeArr[theme][2]);
 }
+
 function tgBtnToggle() {
     if (textGlow) {
         //if on turn off
@@ -141,11 +139,11 @@ function tgBtnToggle() {
         //if off turn on
         textGlow = true;
         toggleBtn(tgToggleBtnStyle, textGlow);
-        globalStyle.textShadow = "var(--text-glow)";
+        globalStyle.textShadow = "var(--text-glow) 0px 0px 10px";
     }
 }
 fsToggleBtn.addEventListener('click', fsBtnToggle);
-// taToggleBtn.addEventListener('click', taBtnToggle);
+themeBtn.addEventListener('click', changeTheme);
 tgToggleBtn.addEventListener('click', tgBtnToggle);
 
 

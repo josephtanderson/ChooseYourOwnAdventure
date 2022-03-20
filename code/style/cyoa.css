@@ -6,11 +6,28 @@
     font-family: 'Press Start 2P', monospace;
     font-size: 16px;
     font-weight: bold;
-    color: hsl(120, 100%, 75%);
-    text-shadow: var(--text-glow);
-    --text-glow: hsl(120, 100%, 50%) 0px 0px 10px;
     --settings-card-bg: #ffffff;
-    
+    text-shadow: var(--text-glow) 0px 0px 10px;
+    color: var(--type-color);
+    --type-color: var(--theme-one-font);
+    --text-glow: var(--theme-one-glow);
+    --bg-color: var(--theme-one-bg);
+    /* THEME ONE */
+    --theme-one-font: #80ff80;
+    --theme-one-glow: #00ff00;
+    --theme-one-bg: #000000;
+    /* THEME TWO */
+    --theme-two-font: #d8d8d8;
+    --theme-two-glow: #dbdbdb;
+    --theme-two-bg: #0000ff;
+    /* THEME THREE */
+    --theme-three-font: #ffffff;
+    --theme-three-glow: #ffffff;
+    --theme-three-bg: #000000;
+    /* THEME FOUR */
+    --theme-four-font: #ff8514;
+    --theme-four-glow: #ffa34d;
+    --theme-four-bg: #000000;
 }
 
 .background {
@@ -39,7 +56,7 @@
 
 
 .screen {
-    background-color: #000;
+    background-color: var(--bg-color);
     /*VVVV 32px PS2P VVVV*/
     /* width: 1391px;
     height: 1192px; */
@@ -153,15 +170,23 @@
     display:flex;
     align-items: center;
     background-color: #1ba122;
+    cursor: pointer;
 }
 
 #fullscreen-setting-toggle {
     background-color: rgb(254, 91, 37);
     padding-left: 2px;
 }
-#typeanimations-setting-toggle {
-    background-color: rgb(254, 91, 37);
-    padding-left: 2px;
+.color-wrapper{
+    cursor: pointer;
+    justify-content: center;
+    background-color: var(--bg-color);
+    padding: 2px;
+}
+ .color-label {
+    color: var(--type-color);
+    text-align: center;
+    justify-self: center;
 }
 #textglow-setting-toggle {
     background-color: rgb(27, 161, 34);
@@ -200,7 +225,7 @@
 
 .settings-btn {
     text-decoration: none;
-    background-color: #000;
+    background-color: var(--bg-color);
     width: fit-content;
     height: fit-content;
     padding: 2px .51ch;
