@@ -1,4 +1,4 @@
-//022222
+//032022
 
 const stylesheet = document.styleSheets[0];
 const globalStyle = stylesheet.cssRules[1].style;
@@ -15,7 +15,7 @@ var themeArr = [["var(--theme-one-font)", "var(--theme-one-glow)", "var(--theme-
 var textGlow = true;
 const fsToggleBtnStyle = stylesheet.cssRules[16].style;
 // const taToggleBtnStyle = stylesheet.cssRules[17].style;
-const tgToggleBtnStyle = stylesheet.cssRules[19].style;
+const tgToggleBtnStyle = stylesheet.cssRules[17].style;
 const screenSizeStyle = stylesheet.cssRules[4].style;
 const screenBorder = stylesheet.cssRules[3].style;
 //screen sizing
