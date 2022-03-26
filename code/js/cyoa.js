@@ -1,5 +1,4 @@
-//032022
-
+//032622
 const stylesheet = document.styleSheets[0];
 const globalStyle = stylesheet.cssRules[1].style;
 const settings = document.getElementById("hide-settings");
@@ -148,8 +147,6 @@ tgToggleBtn.addEventListener('click', tgBtnToggle);
 
 
 //----------------------------------------------------------//
-
-
 const gameText = document.getElementById("text-log");
 const form = document.getElementById('form');
 const input = document.getElementById("player-input");
@@ -233,46 +230,15 @@ const newDoorArr = [ [localStorage.getItem('progress'), 1],
 /*13*/  [13,13]
 ];
 
-
 const globalCommand = {
     isGlobalCommand: false,
-    testmode: [0, "1________1_________2_________3_________41"],
-    exit: [1, "Are you sure you want to exit?"],
-    reset :[2, "Do you want to reset? \r\n(This will remove your saved data) \r\n'yes' or 'no'"],
-    save : [3, "Save your Game?\r\n'yes' or 'no'"], 
-    settings: [4, "Open the settings menu? \r\n'yes' or 'no'"],
-    help : [5, "Global Commands: \r\n exit  \r\n reset \r\n save \r\n settings \r\n help\r\n"]
+    testmode: "1________1_________2_________3_________41",
+    exit: "Are you sure you want to exit?",
+    reset : "Do you want to reset? \r\n(This will remove your saved data) \r\n'yes' or 'no'",
+    save : "Save your Game?\r\n'yes' or 'no'",
+    settings:  "Open the settings menu? \r\n'yes' or 'no'",
+    help : "Global Commands: \r\n exit  \r\n reset \r\n save \r\n settings \r\n help\r\n"
 }
-
-// const globalCommandArr = ["testmode",
-// /*1*/   "exit",
-// /*2*/   "reset",
-// /*3*/   "save",
-// /*4*/   "settings",
-// /*5*/   "help",
-// /*6*/   "_",
-// /*7*/   "_",
-// /*8*/   "_",
-// /*9*/   "_",
-// /*10*/   "_",
-// /*11*/   "_",
-// /*12*/   "_"
-// ];
-
-// const globalRespArr = [ "1________1_________2_________3_________412________1_________2_________3_________413________1_________2_________3_________414________1_________2_________3_________415________1_________2_________3_________416________1_________2_________3_________417________1_________2_________3_________418________1_________2_________3_________419________1_________2_________3_________4110_______1_________2_________3_________4111_______1_________2_________3_________4112_______1_________2_________3_________4113_______1_________2_________3_________4114_______1_________2_________3_________4115_______1_________2_________3_________4116_______1_________2_________3_________4117_______1_________2_________3_________4118_______1_________2_________3_________4119_______1_________2_________3_________4120_______1_________2_________3_________4121_______1_________2_________3_________4122_______1_________2_________3_________4123_______1_________2_________3_________4124_______1_________2_________3_________4125_______1_________2_________3_________4126_______1_________2_________3_________4127_______1_________2_________3_________4128_______1_________2_________3_________4129_______1_________2_________3_________41", 
-// /*1*/    "Are you sure you want to exit? \r\n'yes' or 'no'",
-// /*2*/    "Do you want to reset? \r\n(This will remove your saved data) \r\n'yes' or 'no'",
-// /*3*/    "Save your Game?\r\n'yes' or 'no'", 
-// /*4*/    "Open the settings menu? \r\n'yes' or 'no'",
-// /*5*/    "Global Commands: \r\n exit  \r\n reset \r\n save \r\n settings \r\n help\r\n",
-// /*6*/    "",
-// /*7*/    "",
-// /*8*/    "",
-// /*9*/    "",
-// /*10*/   "",
-// /*11*/   "",
-// /*12*/   "",
-// ];
 
 let gamePrint = "";
 let newLine = "";
@@ -281,233 +247,180 @@ var x;
 var back;
 
 if (localStorage.getItem('progress')) {
+    globalCommand.isGlobalCommand = 'continue';
     x = 0;
-    inventoryArr.push(localStorage.getItem('inventory'))
+    inventoryArr.push(localStorage.getItem('inventory'));
 } else {
     x = 1;
 } 
 var playerInput ="";
 
-function print(textToPrint){
-    gamePrint = gamePrint /*+ "\r\n" */+ textToPrint + "\r\n";
+const print = (textToPrint) => {
+    gamePrint = "\r\n" + gamePrint + textToPrint + "\r\n";
     gameText.textContent = gamePrint;
-    input.value= ""; 
+    input.value= "";
 }
 
-function roomText(x){
-    for (y=0; y<dialogArr[x].length; y++) {
-    print(dialogArr[x][y]);
+const roomText = (roomNum) => {
+    let text = "";
+    for (y=0; y<dialogArr[roomNum].length; y++) {
+    text += dialogArr[roomNum][y] + "\r\n";
     }
+    return text;
 }
 
 function findCommand(input){
-    inputTest = input.toLowerCase().split(" ");
-    playerInput = "input not recognized";
+    if (input === "") return "blank";
+    let inputTest = input.toLowerCase().split(" ");
     for (i = 0 ; i <inputTest.length; i++) {
-        if (globalCommand.isGlobalCommand !== false) {
-            if (inputTest[i] === "yes" || inputTest[i] === "no") {
-                playerInput = inputTest[i];
-                return;
-            }
-        }
         if (globalCommand.hasOwnProperty(inputTest[i])) {
-            response = globalCommand[inputTest[i]][1];
-            playerInput = inputTest[i];
-            globalCommand.isGlobalCommand = globalCommand[inputTest[i]][0];
-            return;
+            return inputTest[i];
         }
-        // if (globalCommandArr.includes(inputTest[i])) {
-        //     globalCommand = globalCommandArr.indexOf(inputTest[i]);
-        //     response = globalRespArr[globalCommand];
-        //     print(response);
-        //     playerInput = inputTest[i];
-        //     return;
-        // }
-        if (optionArr1[x].includes(inputTest[i]) || optionArr2[x].includes(inputTest[i])) {
-            playerInput = inputTest[i];
-            return;
+        if (globalCommand.isGlobalCommand) {
+            if (inputTest[i] === "yes" || inputTest[i] === "no") return inputTest[i];
+            return "Input not recognized";
         }
-        if (inputTest[i] === "back") {
-            playerInput = "back";
-            return;
+        if (optionArr1[x].includes(inputTest[i]) ||
+            optionArr2[x].includes(inputTest[i]) ||
+            globalCommand.hasOwnProperty(inputTest[i])) {
+                return inputTest[i];
         }
+        if (inputTest[i] === "back") return "back";
     }
-    if (playerInput === "input not recognized"){
-        globalCommand.isGlobalCommand = false;
-        return;
-    }
+    return "Input not recognized";
 }
 
-roomText(x);
+const findResponse = (com) => {
+    if (!globalCommand.isGlobalCommand){
+        if (globalCommand.hasOwnProperty(com)){
+            globalCommand.isGlobalCommand = com;
+            return globalCommand[com];
+        }
+        if (com === optionArr1[x]) {
+            x = newDoorArr[x][0];
+            newDoorArr[2].unshift(x);
+            return roomText(x);
+        }
+        if (com === optionArr2[x]) {
+            x = newDoorArr[x][1];
+            newDoorArr[2].unshift(x);
+            return roomText(x);
+        }
+        if (com === "back") {
+            x = 2;
+            return roomText(x);
+        }
+        if (com === "blank" && menuHidden===false){
+            menuToggle();
+            gameText = "";
+            return roomText(x);
+        }
+    }
+    let resp = "";
+    switch (globalCommand.isGlobalCommand) {
+        case 'continue':
+            if (com === "no") {
+                globalCommand.isGlobalCommand = "reset";
+                resp = globalCommand.reset;
+            }
+            x = localStorage.getItem('progress');
+            break;
+        case 'exit':
+            if (com === "yes") {
+                resp = "Well we can't do that yet...";
+                        
+            };
+            globalCommand.isGlobalCommand = false;
+            break;
+        case 'reset':
+            if (com === "yes") {
+                localStorage.removeItem('progress');
+                localStorage.removeItem('inventory');
+                resp = "save data reset";
+                setTimeout(() => {
+                    print("restarting");
+                    location.reload();
+                }, 1750);
+            }
+            globalCommand.isGlobalCommand = false;
+            break;
+        case 'save':
+            if (com === "yes") {
+                localStorage.setItem('progress', x);
+                localStorage.setItem('inventory', inventoryArr);
+                resp = "Game Saved";
+            }
+            globalCommand.isGlobalCommand = false;
+            break;
+        case 'settings':
+            if (com === "yes") {
+                menuToggle();
+                resp = " ";
+            }
+            globalCommand.isGlobalCommand = false;
+            break;
+        case 'help':
+            globalCommand.isGlobalCommand = false;
+            break;
+        default:
+            globalCommand.isGlobalCommand = false;
+            resp = "I don't  understand your input, please try again \r\n";
+    }
+    if (!resp) resp = roomText(x);
+    return resp;
+}
 
+
+
+print(roomText(x));
 function playerSubmission(event) {
     playerInput = input.value;
-    if (playerInput) {
-        print("\r\n" + playerInput + "\r\n");
-        findCommand(playerInput);
-    //global commands--
-        if (globalCommand.isGlobalCommand !== false) {
-            if (globalCommand.isGlobalCommand === 3 && localStorage.getItem('progress')) {
-                response = "This will overwrite previous save." + response;
-            }
-            print(response)
-            
-            if (globalCommand.isGlobalCommand === 0) {
-                //continue
-                if (playerInput === "no") {
-                    gamePrint= "";
-                    x = 1;
-                }
-                
-            } else if (globalCommand.isGlobalCommand === 1) {
-                //exit
-                if (playerInput === "yes") {
-                    response = "Well we can't do that yet...";
-                    
-                }                 
-            } else if (globalCommand.isGlobalCommand === 2 && !localStorage.getItem('progress')) {
-                location.reload()
-                x = 1;
-            } else if (globalCommand.isGlobalCommand === 2) {
-                //reset
-                if (playerInput === "yes") {
-                    localStorage.removeItem('progress');
-                    localStorage.removeItem('inventory');
-                    response= "Save data reset";
-                    
-                } else if (playerInput === "no") {
-                    gamePrint = "";
-                } else {
-                }
-                
-            } else if (globalCommand.isGlobalCommand === 3) {
-                //save
-                if (playerInput === "yes") {
-                    localStorage.setItem('progress', x);
-                    localStorage.setItem('inventory', inventoryArr);
-                    response = "Game Saved";
-                    
-                } 
-            } else if (globalCommand.isGlobalCommand === 4) {
-                //settings
-                if (playerInput === "yes") {
-                    menuToggle();
-                    response = " ";
-                } 
-            }
-            print(response);
-            globalCommand.isGlobalCommand = false;
-        } else {
-    //--------------------------------------------------------------------------------------------------
-            if (playerInput === optionArr1[x]) {
-                x = newDoorArr[x][0];
-                roomText(x);
-                newDoorArr[2].unshift(x);
-            } else if (playerInput === optionArr2[x]) {
-                x = newDoorArr[x][1];
-                roomText(x);
-                newDoorArr[2].unshift(x);
-            } else if (playerInput === "back") {
-                x = 2;
-                roomText(x);
-            } else {
-                response = "I don't  understand your input, please try again \r\n";
-                print(response);
-            }
-    //--------------------------------------------------------------------------------------------------    
-        }
-    } else {
-        if (menuHidden === false) {
-            menuToggle();
-        } else {
-            response = "No input detected";
-            print("\r\n"+response+"\r\n");
-        }
-    }
-    //--------------------------------------------------------------------------------------------------
+    print("\r\n" + playerInput + "\r\n");
+    let command = findCommand(playerInput);
+    //test keyword 
+    response = findResponse(command);
+    //print response
+    print(response);
+
     event.preventDefault();
 }
-
-    form.addEventListener('submit', playerSubmission);
-
+form.addEventListener('submit', playerSubmission);
 
 
-
-    // if (globalCommand === false) {
-
-    //     if (globalCommand === 3 && localStorage.getItem('progress')) {
-    //         response = "This will overwrite previous save." + response;
-    //     }
-    //     if (globalCommand === 0) {
-    //         //continue
-    //         if (playerInput === "yes") {
-
-                
-    //         } else if (playerInput === "no") {
-    //             gamePrint= "";
-    //             x = 1;
-    //         } else {
-    //             response = "I didn't understand your input please try again.";
+    //         } else if (globalCommand.isGlobalCommand === 4) {
+    //             //settings
+    //             if (playerInput === "yes") {
+    //                 menuToggle();
+    //                 response = " ";
+    //             } 
     //         }
-            
-    //     } else if (globalCommand === 1) {
-    //         //exit
-    //         if (playerInput === "yes") {
-    //             response = "Well we can't do that yet...";
-    //             print(response  + "\r\n");
-    //         } else if (playerInput === "no") {
-    //         } else {
-    //             response = "I didn't understand your input please try again.";
-    //         }
-            
-    //     } else if (globalCommand === 2 && !localStorage.getItem('progress')) {
-    //         location.reload()
-    //         x = 1;
-    //     } else if (globalCommand === 2) {
-    //         //reset
-    //         if (playerInput === "yes") {
-    //             localStorage.removeItem('progress');
-    //             localStorage.removeItem('inventory');
-    //             response= "Save data reset";
-    //             print(response);
-    //         } else if (playerInput === "no") {
-    //             gamePrint = "";
-    //         } else {
-    //             response = "I didn't understand your input please try again.";
-    //         }
-            
-    //     } else if (globalCommand === 3) {
-    //         //save
-    //         if (playerInput === "yes") {
-    //             localStorage.setItem('progress', x);
-    //             localStorage.setItem('inventory', inventoryArr);
-    //             response = "Game Saved";
-    //             print(response);
-    //         } else if (playerInput === "no") {
-    //         } else {
-    //             response = "I didn't understand your input please try again.";
-    //         }
-            
-    //     } else if (globalCommand === 4) {
-    //         //settings
-    //         if (playerInput === "yes") {
-    //             menuToggle();
-    //         } else if (playerInput === "no") {
-    //         } else {
-    //             response = "I didn't understand your input please try again. \r\n";
-    //         }
-            
-    //     } else if (globalCommand === 5) {
-
-    //     } else if (globalCommand === 6) {
-    //         //testMode
-    //         if (parseInt(playerInput) !== NaN) {
-    //             mode = parseInt(playerInput);
-    //             gamePrint = "";
-    //         } else {
-    //             gamePrint = "";
-    //         }
-            
+    //         print(response);
+    //         globalCommand.isGlobalCommand = false;
     //     } else {
-    //         response = "I didn't understand your input please try again. \r\n";
+    // //--------------------------------------------------------------------------------------------------
+    //         if (playerInput === optionArr1[x]) {
+    //             x = newDoorArr[x][0];
+    //             roomText(x);
+    //             newDoorArr[2].unshift(x);
+    //         } else if (playerInput === optionArr2[x]) {
+    //             x = newDoorArr[x][1];
+    //             roomText(x);
+    //             newDoorArr[2].unshift(x);
+    //         } else if (playerInput === "back") {
+    //             x = 2;
+    //             roomText(x);
+    //         } else {
+    //             response = "I don't  understand your input, please try again \r\n";
+    //             print(response);
+    //         }
+    // //--------------------------------------------------------------------------------------------------    
     //     }
+    // } else {
+    //     if (menuHidden === false) {
+    //         menuToggle();
+    //     } else {
+    //         response = "No input detected";
+    //         print("\r\n"+response+"\r\n");
+    //     }
+    // }
+    //--------------------------------------------------------------------------------------------------
