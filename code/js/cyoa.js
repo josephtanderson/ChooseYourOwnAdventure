@@ -28,17 +28,17 @@ if (fullscreen){
 } else {
     fullscreenOff()
 }
-screenSizing();
+var i = 0;
 
 var fullscreen = false;
 
 function screenSizing() {
-    if (window.visualViewport['width'] < window.visualViewport['height']) {
-        viewMin = window.visualViewport['width'];
+    if (window.visualViewport.width < window.visualViewport.height) {
+        viewMin = window.visualViewport.width;
     } else {
-        viewMin = window.visualViewport['height'];
+        viewMin = window.visualViewport.height;
     }
-    if (viewMin > 1400){
+    if (viewMin >= 1400){
         currentFontSize = "32px"
         currentWidth = "1391px";
         currentHeight = "1192px";
@@ -48,12 +48,12 @@ function screenSizing() {
         currentWidth = "724px"
         currentHeight = "620px";
         fullscreen= false;
-    } else if (viewMin >= 450) {
+    } else if (viewMin >= 455) {
         currentFontSize = "12px"
         currentWidth = "554px"
         currentHeight = "476px";
         fullscreen= false;
-    } else if (viewMin < 450){
+    } else if (viewMin < 455){
         currentFontSize = "8px"
         currentWidth = "385px";
         currentHeight = "330px";
@@ -67,8 +67,8 @@ function screenSizing() {
 }
 function fullscreenOn() {
     toggleBtn(fsToggleBtnStyle, fullscreen);
-    screenSizeStyle.width = "100vw";
-    screenSizeStyle.height = "100vh";
+    screenSizeStyle.setProperty('width', "100vw");
+    screenSizeStyle.setProperty("height","100vh");
     screenSizeStyle.borderStyle = "none";
     screenSizeStyle.margin = "0"
     screenSizeStyle.padding = "20px";
@@ -86,7 +86,7 @@ function fullscreenOff() {
     globalStyle.fontSize = currentFontSize;
 }
 
-window.visualViewport.addEventListener('resize', screenSizing)
+window.visualViewport.addEventListener('resize', event => {screenSizing(); console.log(visualViewport.width, visualViewport.height)} );
 
 //menu toggling
 function menuToggle () {
