@@ -96,7 +96,7 @@
 }
 
 .hide-settings {
-    /* visibility: hidden; */
+    visibility: hidden;
 }
 
 .settings-menu {

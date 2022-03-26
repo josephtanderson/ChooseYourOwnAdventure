@@ -8,8 +8,8 @@ const settingsMenuBtn = document.getElementById("settings-menu-btn");
 const menuStyle = stylesheet.cssRules[6].style;
 var menuHidden = true;
 const fsToggleBtn = document.getElementById("fullscreen-setting-toggle");
-const themeBtn = document.getElementById("color-wrapper");
 const tgToggleBtn = document.getElementById("textglow-setting-toggle");
+const themeBtn = document.getElementById("color-wrapper");
 var theme = 0; 
 var themeArr = [["var(--theme-one-font)", "var(--theme-one-glow)", "var(--theme-one-bg)"],["var(--theme-two-font)", "var(--theme-two-glow)", "var(--theme-two-bg)"],["var(--theme-three-font)", "var(--theme-three-glow)", "var(--theme-three-bg)"],["var(--theme-four-font)", "var(--theme-four-glow)", "var(--theme-four-bg)"]]
 var textGlow = true;
@@ -511,12 +511,3 @@ function playerSubmission(event) {
     //     } else {
     //         response = "I didn't understand your input please try again. \r\n";
     //     }
-
-
-
-
-
-
-
- 
- 
