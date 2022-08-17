@@ -48,12 +48,12 @@ function screenSizing() {
         currentWidth = "724px"
         currentHeight = "620px";
         fullscreen= false;
-    } else if (viewMin >= 455) {
+    } else if (viewMin >= 584) {
         currentFontSize = "12px"
         currentWidth = "554px"
         currentHeight = "476px";
         fullscreen= false;
-    } else if (viewMin < 455){
+    } else if (viewMin < 584){
         currentFontSize = "8px"
         currentWidth = "385px";
         currentHeight = "330px";
